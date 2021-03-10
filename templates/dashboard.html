@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class="pt-5 pb-3" align="center">Dashboard</h1>
+
+<div class="container pb-5 ">
+  <div class="row" align="center">
+
+    <div class="col-sm rounded-pill bg-info">
+       <h4>Total Order : <span class="badge bg-primary rounded-pill">{{ t_orders }}</span></h4>
+    </div>
+    <div class="col-sm rounded-pill bg-danger">
+      <h4>Pending : <span class="badge bg-primary rounded-pill">{{ p_orders }}</span></h4>
+    </div>
+    <div class="col-sm rounded-pill bg-secondary">
+      <h4>Delivered : <span class="badge bg-primary rounded-pill">{{ d_orders }}</span></h4>
+    </div>
+    <div class="col-sm rounded-pill bg-warning">
+      <h4>in Progress : <span class="badge bg-primary rounded-pill">{{ in_orders }}</span></h4>
+    </div>
+    <div class="col-sm rounded-pill bg-success">
+      <h4>out of Order : <span class="badge bg-primary rounded-pill">{{ out_orders }}</span></h4>
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5">
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Customer</h5>
+        <button type="button" class="btn btn-outline-success"><a href="#">Create</a></button>
+          <table class="table" >
+              <thead style="background-color: #e3f2fd;">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">email</th>
+                  <th scope="col">phone</th>
+                  <th scope="col">Show</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for  item in customer %}
+                <tr>
+                  <td>{{  item.name }}</td>
+                  <td>{{  item.email }}</td>
+                  <td>{{  item.phone }}</td>
+                  <td><a href="{% url 'customer' item.id %}"><i class="fas fa-eye"></i></a></td>
+                </tr>
+
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Order</h5>
+{#        <button type="button" class="btn btn-outline-success"><a href="{% url 'create' %}">Create</a></button>#}
+          <table class="table" >
+              <thead style="background-color: #e3f2fd;">
+                <tr>
+                  <th scope="col">customer</th>
+                  <th scope="col">book</th>
+                  <th scope="col">status</th>
+                  <th scope="col">created_dt</th>
+                    <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for item in order %}
+                <tr>
+                  <th scope="col">{{ item.customer }}</th>
+                  <td>{{ item.book }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.created_dt |naturaltime }}</td>
+                  <td>
+                      <a href="{% url 'update' item.id %}"><i class="fas fa-edit"></i></a>
+                      <a class="text-danger" href="{% url 'delete' item.id %}"><i class="fas fa-trash-alt"></i></a>
+                  </td>
+                </tr>
+
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

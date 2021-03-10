@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class="pt-5 pb-3" align="center">Customer : {{ customer.name }} </h1>
+
+<div class="container pb-5" align="center">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+    <div class="col">Email : {{ customer.email }}</div>
+    <div class="col">Phone : {{ customer.phone }}</div>
+    <div class="col">Ege : {{ customer.age }}</div>
+    <div class="col">numbers of Orders : <span class="badge bg-primary rounded-pill">{{ num_orders }}</span></div>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Order</h5>
+        <button type="button" class="btn btn-outline-success"><a href="{% url 'create' customer.id %}">Create</a></button>
+          <table class="table" >
+              <thead style="background-color: #e3f2fd;">
+                <tr>
+                  <th scope="col">Book</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">status</th>
+                  <th scope="col">created_dt</th>
+                    <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for item in order %}
+                <tr>
+                  <th>{{ item.book }}</th>
+                  <td>{{ item.book.category }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.created_dt |naturaltime }}</td>
+                  <td>
+                      <a href="{% url 'update' item.id %}"><i class="fas fa-edit"></i></a>
+                      <a class="text-danger" href="{% url 'delete' item.id %}"><i class="fas fa-trash-alt"></i></a>
+                  </td>
+                </tr>
+
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
